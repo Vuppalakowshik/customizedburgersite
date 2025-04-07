@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+.Homepage {
+  width: 100%;
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.LogoContainer .Logo {
+  width: 32.5px;
+  height: 32.5px;
+}
+
+.SearchContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.SearchBar {
+  width: 50%;
+}
+
+.CartContainer{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.TopRightButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.custom-button{
+  background-color: rgb(238, 115, 15);
+}
+
+
+.BannerContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 10px;
+  overflow: hidden; 
+}
+
+
+.BannerImage {
+  width: 100%;
+  height: 425px; 
+  object-fit: cover; 
+  object-position: center top;
+  border-radius: 10px;
+}
+
+.custombutton{
+  background-color: rgb(54 107 5);
+  color: aliceblue !important;
+}
+
+.customizebutton{
+  display: flex;
+}
+
+
+ .designtittle{
+ font-family: 'Courier New', Courier, monospace;
+ height: 200px;
+} 
+
+.Card1{
+  box-shadow:
+  6px 0px 16px -8px rgba(0, 0, 0, 0.08), /* First shadow */
+  9px 0px 28px 0px rgba(0, 0, 0, 0.05),  /* Second shadow */
+  12px 0px 48px 16px rgba(0, 0, 0, 0.03); /* Third shadow */
+}
+.Card2{
+  width: 450px;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.Subheadingfont{
+  font-family:'Roboto', sans-serif;
+}
+/*vegcircle*/
+.container{
+  display: flex;
+  justify-content:end
+}
+.veg-badge-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid green;
+  height: 20px;
+  width: 20px;
+}
+.circle{
+  position: absolute;
+  background-color: green;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+}
+/*endshere*/
+
+/*nonvegcircle*/
+.heading-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: end;
+}
+
+.circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.redsquare-box {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ff0000;
+  border-radius: 2px;
+}
+
+.red {
+  background-color: #ff0000; /* red for non-veg */
+}
+
+/*endshere*/
+/*cardsection*/
+
+/*greencircle*/
+.heading-with-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: end;
+}
+
+.circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.greensquare-box {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #3cff00;
+  border-radius: 2px;
+}
+
+.circlegreen{
+  background-color: #00ff40; 
+}
+/*endshere*/
+/*cardsection*/
+
+
+.cradssection{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* Tablets (768px) */
+@media (max-width: 768px) {
+  .cradssection{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile (480px) */
+@media (max-width: 480px) {
+  .cradssection{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small Mobile (320px) */
+@media (max-width: 320px) {
+  .cradssection{
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+
