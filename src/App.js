@@ -5,10 +5,12 @@ import { BurgerCustomizer } from "./Home/Webcomponents/BurgerCustomizer/burgercu
 import { BannerComponent } from "./Home/Webcomponents/Banner/Banner";
 import {ViewCart} from "./Home/Webcomponents/Viewcart/Viewcart";
 import { BurgerCard } from "./Home/Webcomponents/Burgercart/burgercart";
-import { CartProvider } from "./Home/Webcomponents/Cardcontext/Cardcontext"; // Adjust the path as necessary
+import { CartProvider } from "./Home/Webcomponents/Cardcontext/Cardcontext"; 
 import { BurgerList } from "./Home/Webcomponents/Burgerlist/burgerlist";
 import { Nonveglist } from "./Home/Webcomponents/Nonvegburgers/nonveglist";
 import { Navbar } from "./Home/Webcomponents/Navbar/navbar";
+import { Signup } from "./Home/Webcomponents/Signuppage/Signuppage"; 
+import {Login } from "./Home/Webcomponents/Loginpage/Loginpage";
 
 
 
@@ -24,6 +26,9 @@ function App() {
         <Route path="/vegburgers" element={<BurgerList />} />
         <Route path="/nonvegburgers" element={<Nonveglist />} />
         <Route path="/navbar" element={<Navbar />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+
 
         {/* Add more routes as needed */}
 

@@ -84,6 +84,20 @@ export const BannerComponent = () => {
     const cartItems = context?.cartItems || [];
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
+  
+  const handleLogout = () => {
+    localStorage.removeItem("userMobile"); // Clear saved login
+    navigate("/login"); // Redirect to login
+  };
+
 
   return (
     <div className="Homepage">
@@ -134,8 +148,15 @@ export const BannerComponent = () => {
               </a>
             </Dropdown>
           </Button>
-          <Button className="custom-button">Login</Button>
-          <Button className="custom-button">Signup</Button>
+          <div className="banner-buttons">
+          <button className="banner-btn login-btn" onClick={handleLoginClick}>
+            Login
+          </button>
+          <button className="banner-btn signup-btn" onClick={handleSignupClick}>
+            Sign Up
+          </button>
+          <button className="nav-btn logout-button" onClick={handleLogout}>Logout</button>
+        </div>
         </div>
       </div>
     </div>
