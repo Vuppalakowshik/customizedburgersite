@@ -8,6 +8,7 @@ import { BurgerCard } from "./Home/Webcomponents/Burgercart/burgercart";
 import { CartProvider } from "./Home/Webcomponents/Cardcontext/Cardcontext"; // Adjust the path as necessary
 import { BurgerList } from "./Home/Webcomponents/Burgerlist/burgerlist";
 import { Nonveglist } from "./Home/Webcomponents/Nonvegburgers/nonveglist";
+import { Navbar } from "./Home/Webcomponents/Navbar/navbar";
 
 
 
@@ -22,6 +23,8 @@ function App() {
         <Route path="/burgercart" element={<BurgerCard />} />
         <Route path="/vegburgers" element={<BurgerList />} />
         <Route path="/nonvegburgers" element={<Nonveglist />} />
+        <Route path="/navbar" element={<Navbar />} />
+
         {/* Add more routes as needed */}
 
       </Routes>

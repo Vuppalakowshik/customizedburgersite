@@ -1,0 +1,55 @@
+/* Desktop Navbar - visible only on wider screens */
+.desktop-navbar {
+    display: block;
+  }
+  
+  /* Mobile Navbar - hidden by default */
+  .mobile-navbar {
+    display: none;
+  }
+
+  .mobile-nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background-color: #fff;
+    position: relative;
+  }
+  
+  .mobile-cart-icon {
+    cursor: pointer;
+  }
+
+  .page-title-indicator {
+    font-weight: bold;
+    color: #FF5733;
+    margin-left: 15px;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 768px) {
+    .page-title-indicator {
+      font-size: 12px;
+      text-align: center;
+    }
+  }
+  
+  
+
+  
+  /* On small screens (mobile), switch visibility */
+  @media (max-width: 768px) {
+    .desktop-navbar {
+      display: none;
+    }
+  
+    .mobile-navbar {
+      display: block;
+    }
+    .logo img {
+        width: 50px;
+        cursor: pointer;
+      }  
+  }
+  

@@ -10,9 +10,20 @@ export const CartProvider = ({ children }) => {
     setCartItems((prev) => [...prev, item]);
   };
 
-  const removeFromCart = (id) => {
-    setCartItems((prev) => prev.filter(item => item.id !== id));
+  const removeFromCart = (itemName) => {
+    const updatedCart = cartItems.map(item => {
+      if (item.name === itemName) {
+        if (item.quantity > 1) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return null; // Will be filtered out if quantity is 1
+      }
+      return item;
+    }).filter(item => item !== null);
+  
+    setCartItems(updatedCart);
   };
+  
 
   const clearCart = () => setCartItems([]);
 

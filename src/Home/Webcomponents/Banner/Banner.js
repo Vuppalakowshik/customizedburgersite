@@ -4,9 +4,12 @@ import Banner from "../../../Assets/images/Bannerimage.png";
 import "./Banner.css";
 import { Badge } from "antd";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { Navbar } from "../Navbar/navbar";
+import { useLocation } from 'react-router-dom';
 import { Button, Dropdown, Space, Input } from "antd";
 import { DownOutlined, SearchOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { CartContext } from "../Cardcontext/Cardcontext"; // ✅ Use the actual context, not the provider
+import { CartContext } from "../Cardcontext/Cardcontext"; 
 
 const { Search } = Input;
 
@@ -58,7 +61,23 @@ export const BannerComponent = () => {
     },
  
   ];
+  const location = useLocation();
 
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case '/homepage':
+        return "You are in Home Page";
+      case '/vegburgers':
+        return "You are in Veg Burgers Page";
+      case '/nonvegburgers':
+        return "You are in Non-Veg Burgers Page";
+      case '/customizeburger':
+        return "You are in Dipsandtoppins Page";
+      default:
+        return "";
+    }
+  };
+  
 
 
   const getTotalCount = () => {
@@ -68,21 +87,37 @@ export const BannerComponent = () => {
 
   return (
     <div className="Homepage">
-      {/* ✅ Header Section */}
+      <div className="page-title-indicator">
+  <p>{getPageTitle()}</p>
+</div>
+
+  
+  <div className="mobile-navbar">
+  <div className="mobile-nav-top">
+    <Navbar />
+
+    {/* 🛒 Add to Cart Icon beside hamburger */}
+    <div className="mobile-cart-icon" onClick={() => navigate("/viewcart")}>
+      <Badge count={getTotalCount()} showZero>
+        <ShoppingCartOutlined style={{ fontSize: 24, cursor: "pointer", color: "#000" }} />
+      </Badge>
+    </div>
+  </div>
+</div>
+
+  
+    {/* ✅ Desktop Navbar Only */}
+    <div className="desktop-navbar">
       <div className="Header">
-        <div className="LogoContainer">
-          <img src={logo} alt="Brrrgrrr Logo" className="Logo" />
-        </div>
-
-        <div className="SearchContainer">
-          <Search
-            placeholder="Search for burgers..."
-            enterButton={<SearchOutlined />}
-            className="SearchBar"
-            onSearch={(value) => console.log("Searching:", value)}
-          />
-        </div>
-
+        <Link to="/homepage" style={{ textDecoration: 'none' }}>
+          <div className="logo">
+            <img src={logo} alt="Brrrgrrr" style={{ cursor: 'pointer', borderRadius: "20px"}} />
+          </div>
+          
+        </Link>
+  
+  
+  
         <div className="TopRightButtons">
           <div style={{ marginRight: "20px", padding: "10px" }}>
             <div className="cart-icon" onClick={() => navigate("/viewcart")}>
@@ -91,7 +126,7 @@ export const BannerComponent = () => {
               </Badge>
             </div>
           </div>
-
+  
           <Button>
             <Dropdown menu={{ items: navMenuItems }}>
               <a onClick={(e) => e.preventDefault()}>
@@ -103,11 +138,13 @@ export const BannerComponent = () => {
           <Button className="custom-button">Signup</Button>
         </div>
       </div>
-
-      {/* ✅ Banner Section */}
-      <div className="BannerContainer">
-        <img src={Banner} alt="Banner" className="BannerImage" />
-      </div>
     </div>
+  
+    {/* ✅ Banner Section */}
+    <div className="BannerContainer">
+      <img src={Banner} alt="Banner" className="BannerImage" />
+    </div>
+  </div>
+  
   );
 };

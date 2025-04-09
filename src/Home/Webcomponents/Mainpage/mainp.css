@@ -79,6 +79,9 @@
 } 
 
 .Card1{
+  flex-direction: column;
+  display: flex;
+  aspect-ratio: 1/1;
   box-shadow:
   6px 0px 16px -8px rgba(0, 0, 0, 0.08), /* First shadow */
   9px 0px 28px 0px rgba(0, 0, 0, 0.05),  /* Second shadow */

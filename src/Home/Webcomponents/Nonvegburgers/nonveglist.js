@@ -1,8 +1,11 @@
 import React from 'react';
-import { Card, Button } from 'antd';
+import { Card, Button ,Input} from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { BannerComponent } from '../Banner/Banner';
 import { useCart } from '../Cardcontext/Cardcontext';
+import { useNavigate } from 'react-router-dom';
+import  { useState } from "react";
+
 
 import   ChickenBurger from "../../../Assets/images/Classic-chicken-burger-scaled.jpg";
 import  Spicyperperi from "../../../Assets/images/spicyperiperichickenburger.webp";
@@ -16,29 +19,44 @@ import fishfillet from "../../../Assets/images/fishfilletburger.webp";
 import prawntemp from "../../../Assets/images/prawnTempuraburger.jpg"
 
 const { Meta } = Card;
+const { Search } = Input;
+
 
 export const Nonveglist = () => {
+    const navigate = useNavigate();
   const { setCartItems, cartItems } = useCart();
+    const [searchQuery, setSearchQuery] = useState('');
 
-  const addToCart = (item) => {
-    const updatedCart = [...cartItems, { ...item, quantity: 1 }];
-    setCartItems(updatedCart);
-  };
+    const addToCart = (item) => {
+      const existingItem = cartItems.find(i => i.name === item.name);
+      if (existingItem) {
+        const updatedCart = cartItems.map(i =>
+          i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i
+        );
+        setCartItems(updatedCart);
+      } else {
+        setCartItems([...cartItems, { ...item, quantity: 1 }]);
+      }
+    };
+    
 
   const burgers = [
     {
+      id:"11",
       name: 'Chicken Burger',
       img: ChickenBurger,
       desc: 'A simple yet delicious burger with a crispy vegetable patty...',
       price: 120,
     },
     {
+      id:"12",
       name: 'Spicy Peri Peri Chicken Burger',   
       img: Spicyperperi,
       desc: 'An Indian-inspired burger featuring spicy grilled paneer...',
       price: 130,
     },
     {
+      id:"13",
       name: 'Chicken Cheesy Burger',
       img: chickencheesy,
       desc: 'A creamy, rich burger made with sautéed mushrooms...',
@@ -46,6 +64,7 @@ export const Nonveglist = () => {
     },
     // Add more burger items here
     {
+      id:"14",
       name: 'Buffalo Chicken Burger',
       img: buffalochicken,
      
@@ -53,6 +72,7 @@ export const Nonveglist = () => {
       price: 110,
     },
     {
+      id:"15",
       name: 'Crunchy Fried Chicken Burger',
       img: cunchyfried,
      
@@ -60,6 +80,7 @@ export const Nonveglist = () => {
       price: 125,
     },
     {
+      id:"16",
       name: 'BBQ Pulled Chicken Burger',
       img: BBQpulled,
     
@@ -67,6 +88,7 @@ export const Nonveglist = () => {
       price: 150,
     },
     {
+      id:"17",
       name: 'Double Beef Burger',
       img: doublebeef,
    
@@ -74,6 +96,7 @@ export const Nonveglist = () => {
       price: 135,
     },
     {
+      id:"18",
       name: 'Lamb and Mint Burger',
       img: lambandmint,
      
@@ -81,6 +104,7 @@ export const Nonveglist = () => {
       price: 120,
     },
     {
+      id:"19",
       name: 'Fish Fillet Burger',
         img: fishfillet,
 
@@ -88,6 +112,7 @@ export const Nonveglist = () => {
       price: 145,
     },
     {
+      id:"20",
       name: 'Prawen Tempura Burger',
       img: prawntemp,
       
@@ -95,25 +120,56 @@ export const Nonveglist = () => {
       price: 160,
     },
   ];
+
+  const filteredBurgers = burgers.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  ).map(item => ({
+    ...item,
+    highlight: searchQuery.length > 0
+  }));
+  
   
   return (
     <div>
       <BannerComponent />
+
+      <div style={{ textAlign: 'center', margin: '20px' }}>
+        <Search
+          placeholder="Search for a burger..."
+          allowClear
+          enterButton="Search"  
+          size="large"
+          onSearch={() => {}} // No need to do anything on explicit search
+
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
       <div className="row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {burgers.map((item, index) => (
+        {filteredBurgers.map((item, index) => (
           <Card
             key={index}
             hoverable
-            style={{ width: 300, margin: 16 }}
+            style={{ width: 300, margin: 16, border: item.highlight ? '3px solid #ff4d4f' : '1px solid #f0f0f0',
+              boxShadow: item.highlight ? '0 0 10px rgba(255,77,79,0.6)' : 'none',
+              transition: 'all 0.3s', }}
             cover={<img alt={item.name} src={item.img} style={{ height: 200, objectFit: 'cover' }} />}
             actions={[
-              <div className="customizebutton">
-           <Button onClick={() => addToCart(item)}>
-  <div className="CartContainer">
+              <div className="customizebutton" style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
+           <Button
+            onClick={() => addToCart(item)}>
+  <div className="CartContainer" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
     <ShoppingCartOutlined />
     <h2>Add to Cart</h2>
   </div>
 </Button>
+  
+                  <Button
+              onClick={() => navigate("/customizeburger")}
+              style={{ backgroundColor: "#ff4d4f", color: "white" }}
+                  >
+                    Customize
+                  </Button>
 
                </div>
             ]}

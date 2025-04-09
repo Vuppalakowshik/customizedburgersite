@@ -1,3 +1,10 @@
+.highlighted-card {
+    border: 3px solid #ff4d4f;
+    box-shadow: 0 0 10px rgba(255,77,79,0.6);
+  }
+  
+
+
 .sqare-img{
     width: 100px;
     height: 100px;

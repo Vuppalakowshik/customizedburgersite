@@ -38,42 +38,105 @@ import { CartContext } from "../Cardcontext/Cardcontext"; // ✅ Use the actual 
 import { useContext } from "react";
 
 const {Meta} = Card;
+const { Search } = Input;
 
 const burgerItems = [
   
-  { name: "Classic Veg Burger", img: Vegburger },
-  { name: "Paneer Tikka Burger", img: Paneertikka },
-  { name: "Mushroom Swiss Burger", img: Mushroom },
-  { name: "Aloo Tikki Burger", img: Alootikki },
-  { name: "Falafel Burger", img: Falfel },
-  { name: "Cheese Burst Burger", img: Cheeseburst },
-  { name: "Mexican Bean Burger", img: Mexicanburger },
-  { name: "Corn & Spinach Burger", img: Cornandspinach },
-  { name: "Tofu Teriyaki Burger", img: Tofuburger },
-  { name: "Vegan Jackfruit Burger", img: Jackfruit },
- 
+  {
+    id:'1',
+    name: 'Classic Veg Burger',
+    img: Vegburger,
+    desc: 'A simple yet delicious burger with a crispy vegetable patty...',
+    price: 120,
+  },
+  {
+    id:'2',
+    name: 'Paneer Tikka Burger',
+    img: Paneertikka,
+    desc: 'An Indian-inspired burger featuring spicy grilled paneer...',
+    price: 130,
+  },
+  {
+    id:'3',
+    name: 'Mushroom Swiss Burger',
+    img: Mushroom,
+    desc: 'A creamy, rich burger made with sautéed mushrooms...',
+    price: 140,
+  },
+  // Add more burger items here
+  {
+    id:'4',
+    name: 'Aloo Tikki Burger',
+    img: Alootikki,
+    desc: 'A popular Indian street food burger with a spiced potato patty...',
+    price: 110,
+  },
+  {
+    id:'5',
+    name: 'Falafel Burger',
+    img: Falfel,
+    desc: 'A Middle-Eastern inspired burger made with chickpea patties...',
+    price: 125,
+  },
+  {
+    id:'6',
+    name: 'Cheese Burst Burger',
+    img: Cheeseburst,
+    desc: 'A cheesy delight with gooey cheese bursting from the patty...',
+    price: 150,
+  },
+  {
+    id:'7',
+    name: 'Mexican Bean Burger',
+    img: Mexicanburger,
+    desc: 'A spicy and flavorful burger made with black beans and spices...',
+    price: 135,
+  },
+  {
+    id:'8',
+    name: 'Corn and Spinach Burger',
+    img: Cornandspinach,
+    desc: 'A healthy burger packed with corn, spinach, and spices...',
+    price: 120,
+  },
+  {
+    id:'9',
+    name: 'Tofu Teriyaki Burger',
+    img: Tofuburger,
+    desc: 'A delicious burger made with marinated tofu and teriyaki sauce...',
+    price: 145,
+  },
+  {
+    id:'10',
+    name: 'Jackfruit Pulled Burger',
+    img: Jackfruit,
+    desc: 'A vegan burger made with pulled jackfruit and BBQ sauce...',
+    price: 160,
+  },
 ];
  
 const Nonvegburger =[
-  { name: "Classic Chicken Burger", img: ChickenBurger,price: 120 },
-  { name: "Spicy Peri-Peri Chicken Burger", img: Spicyperperi,price: 120},
-  { name: "Cheesy Chicken Burger", img: chickencheesy,price: 120},
-  { name: "Buffalo Chicken Burger", img: buffalochicken ,price: 120},
-  { name: "BBQ Pulled Chicken Burger", img: BBQpulled ,price: 120},
-  { name: "Crunchy Fried Chicken Burger", img: cunchyfried ,price: 120},
-  { name: "Double Beef Burger", img: doublebeef ,price: 120},
-  { name: "Lamb & Mint Burger", img: lambandmint ,price: 120},
-  { name: "Fish Fillet Burger", img: fishfillet ,price: 120},
-  { name: "Prawn Tempura Burger", img: prawntemp ,price: 120},
+  { name: "Classic Chicken Burger", img: ChickenBurger,price: 120 ,id:11},
+  { name: "Spicy Peri-Peri Chicken Burger", img: Spicyperperi,price: 120,id:12},
+  { name: "Cheesy Chicken Burger", img: chickencheesy,price: 120,id:13},
+  { name: "Buffalo Chicken Burger", img: buffalochicken ,price: 120,id:14},
+  { name: "BBQ Pulled Chicken Burger", img: BBQpulled ,price: 120,id:15},
+  { name: "Crunchy Fried Chicken Burger", img: cunchyfried ,price: 120,id:16},
+  { name: "Double Beef Burger", img: doublebeef ,price: 120,id:17},
+  { name: "Lamb & Mint Burger", img: lambandmint ,price: 120,id:18},
+  { name: "Fish Fillet Burger", img: fishfillet ,price: 120,id:19},
+  { name: "Prawn Tempura Burger", img: prawntemp ,price: 120,id:20},
 
-]
+];
+
+
 
 
 
 
 export const Homepage = () => {
   const newLocal = "customburger";
- 
+   const [searchQuery, setSearchQuery] = useState('');
  
   const navigate = useNavigate();
   const context = useContext(CartContext); 
@@ -107,6 +170,12 @@ export const Homepage = () => {
 const handleCustomize = () => {
   navigate('/customizeburger');
 };
+const filteredBurgers = burgerItems.filter((item) =>
+  item.name.toLowerCase().includes(searchQuery.toLowerCase())
+).map(item => ({
+  ...item,
+  highlight: searchQuery.length > 0
+}));
 
 
 
@@ -114,419 +183,65 @@ const handleCustomize = () => {
     <div className="Homepage">
   
     <BannerComponent/>
+    <div style={{ textAlign: 'center', margin: '20px' }}>
+        <Search
+          placeholder="Search for a burger..."
+          allowClear
+          enterButton="Search"  
+          size="large"
+          onSearch={() => {}} // No need to do anything on explicit search
+
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
   <div>
     <h1 style={{fontFamily: "sans-serif", fontWeight:"600", marginLeft: "20px"}}>What are you Craving For ?</h1>
   </div>
 
 <div className="row">
-<div className="cradssection">
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{ width: "100%",height: "auto" }}
-    cover={   <img src ={Vegburger} alt="Burger"style={{height: "250px",width: "100%"}}/>}
- 
-  >
-    
-  <div className="container">
-   
- 
-    <div className="veg-badge-container">
-        <span className="circle" />
-  </div>
-  </div>
+<div className="row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {filteredBurgers.map((item, index) => (
+          <Card
+            key={index}
+            hoverable
+            style={{ width: 300, margin: 16, border: item.highlight ? '3px solid #ff4d4f' : '1px solid #f0f0f0',
+              boxShadow: item.highlight ? '0 0 10px rgba(255,77,79,0.6)' : 'none',
+              transition: 'all 0.3s', }}
+            cover={<img alt={item.name} src={item.img} style={{ height: 200, objectFit: 'cover' }} />}
+            actions={[
+              <div className="customizebutton" style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
+                <Button onClick={() => addToCart(item)}>
+                  <div className="CartContainer" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                    <ShoppingCartOutlined />
+                    <h4 style={{ margin: 0 }}>Add to Cart</h4>
+                  </div>
+                </Button>
+            
+                <Button
+              onClick={() => navigate("/customizeburger")}
 
- <div className="designtittle"><Meta title="Classtic Veg Burger" className="designtittle"  description= "A simple yet delicious burger with a crispy vegetable patty, fresh lettuce, juicy tomato slices, onions, and melted cheese, served with a soft toasted bun."  /></div> 
-
- <div className="customizebutton" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-
-  <Button 
-    onClick={() => addToCart({
-      name: "Classic Veg Burger",
-      img: Vegburger,
-      price: 120
-    })} 
-    style={{ width: "100%", marginBottom: "10px" }} // this ensures spacing
-  >
-    <div className="CartContainer" style={{ display: "flex", alignItems: "center" }}>
-      <ShoppingCartOutlined />
-      <h2 style={{ marginLeft: "8px", fontSize: "16px" }}>Add to Cart</h2>
-    </div>
-  </Button>
-
-  <button 
-    onClick={handleCustomize} 
-    style={{ 
-      backgroundColor: "#FF5733", 
-      color: "white", 
-      border: "none", 
-      padding: "10px 20px", 
-      borderRadius: "5px", 
-      width: "100%"
-    }}
-  >
-    Customize
-  </button>
-</div>
-
-
- 
-  </Card>
-  </div>
-
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{ width: "100%", height: "auto"}}
-    cover={   <img src ={Paneertikka} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-       <div className="container">
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle"> <Meta title="Paneer tikka "  className="designtittle" description="An Indian-inspired burger featuring spicy grilled paneer marinated in yogurt and spices, topped with onions and bell peppers for extra flavor."/></div>
-  <div className="customizebutton" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-
-<Button 
-  onClick={() => addToCart({
-    name: "Paneer Tikka Burger",
-    img: Paneertikka,
-    price: 120
-  })} 
-  style={{ width: "100%", marginBottom: "10px" }} // this ensures spacing
->
-  <div className="CartContainer" style={{ display: "flex", alignItems: "center" }}>
-    <ShoppingCartOutlined />
-    <h2 style={{ marginLeft: "8px", fontSize: "16px" }}>Add to Cart</h2>
-  </div>
-</Button>
-
-<button 
-  onClick={handleCustomize} 
-  style={{ 
-    backgroundColor: "#FF5733", 
-    color: "white", 
-    border: "none", 
-    padding: "10px 20px", 
-    borderRadius: "5px", 
-    width: "100%"
-  }}
->
-  Customize
-</button>
-</div>
-
-
-
-</Card>
-</div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{ width: "100%", height: "auto"}}
-    cover={   <img src ={Mushroom} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-   
-   <div className="container">
-    
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle"><Meta title=" Mushrrom Swiss Burger  "  description="A creamy, rich burger made with sautéed mushrooms and Swiss cheese, giving it a smooth, umami-packed taste."/></div>
-  <div className="customizebutton" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-
-<Button 
-  onClick={() => addToCart({
-    name: "Mushroom Swiss Burger",
-    img:Mushroom,
-    price: 120
-  })} 
-  style={{ width: "100%", marginBottom: "10px" }} // this ensures spacing
->
-  <div className="CartContainer" style={{ display: "flex", alignItems: "center" }}>
-    <ShoppingCartOutlined />
-    <h2 style={{ marginLeft: "8px", fontSize: "16px" }}>Add to Cart</h2>
-  </div>
-</Button>
-
-<button 
-  onClick={handleCustomize} 
-  style={{ 
-    backgroundColor: "#FF5733", 
-    color: "white", 
-    border: "none", 
-    padding: "10px 20px", 
-    borderRadius: "5px", 
-    width: "100%"
-  }}
->
-  Customize
-</button>
-</div>
-  </Card>
-  </div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{width: "100%", height: "auto"}}
-    cover={   <img src ={Alootikki} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-   
-   <div className="container">
-   
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-
-  <div className="designtittle">
-  <Meta title="Aloo Tikki Burger "  description="A Mediterranean delight! Made with a crispy chickpea falafel patty, fresh veggies, and a creamy tahini sauce. Perfect for those who love bold flavors."/> 
-    </div> 
-    <div className="customizebutton" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-
-<Button 
-  onClick={() => addToCart({
-    name: "Aloo Tikki Burger",
-    img: Alootikki,
-    price: 120
-  })} 
-  style={{ width: "100%", marginBottom: "10px" }} // this ensures spacing
->
-  <div className="CartContainer" style={{ display: "flex", alignItems: "center" }}>
-    <ShoppingCartOutlined />
-    <h2 style={{ marginLeft: "8px", fontSize: "16px" }}>Add to Cart</h2>
-  </div>
-</Button>
-
-<button 
-  onClick={handleCustomize} 
-  style={{ 
-    backgroundColor: "#FF5733", 
-    color: "white", 
-    border: "none", 
-    padding: "10px 20px", 
-    borderRadius: "5px", 
-    width: "100%"
-  }}
->
-  Customize
-</button>
-</div>
-  </Card>
-  </div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{width: "100%", height: "auto"}}
-    cover={   <img src ={Falfel} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-   
-   <div className="container">
-   
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  
-  <div className="designtittle">
-  <Meta title="Falafel Burger  " description="A Mediterranean delight! Made with a crispy chickpea falafel patty, fresh veggies, and a creamy tahini sauce. Perfect for those who love bold flavors." />
-  </div>
-  
-  <div className="customizebutton">
-  <Button onClick={() => 
-  addToCart({
-    name: "Falafel Burger",
-    img: Falfel,
-    price: 120
-  })}>
-  <div className="CartContainer">
-  <ShoppingCartOutlined />
-  <h2>Add to Cart</h2>
-</div>
-  </Button>
-  </div>
-  </Card>
-  </div>
-  </div>
-
- <div className="row">
- <div className="cradssection">
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{ width: "100%", height: "auto"}}
-    cover={   <img src ={Cheeseburst} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-    
-    <div className="container">
-    
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle">
-  <Meta title="Cheese Burst Burger   "  description="For cheese lovers! A crunchy veg patty stuffed with gooey cheese, giving every bite a delightful cheesy explosion."/>
-  </div>
-  
-  <div className="customizebutton">
-  <Button onClick={() => 
-  addToCart({
-    name: "Cheese Burst Burger",
-    img: Cheeseburst,
-    price: 120
-  })}><div className="CartContainer">
-  <ShoppingCartOutlined />
-  <h2>Add to Cart</h2>
-</div>
-    <ShoppingCartOutlined />
-  </Button>
-  </div>
-  </Card>
-  </div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{ width: "100%", height: "auto"}}
-    cover={   <img src ={Mexicanburger} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-  
-  <div className="container">
-   
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle">
-  <Meta title="Mexican Bean Burger  "  description="A spicy and tangy burger featuring a black bean patty, topped with salsa, jalapeños, and guacamole, giving it a true Mexican vibe!"></Meta> 
-  </div>
-  
-  <div className="customizebutton">
-  <Button onClick={() => 
-  addToCart({
-    name: "Mexican Bean Burger",
-    img: Mexicanburger,
-    price: 120
-  })}><div className="CartContainer">
-  <ShoppingCartOutlined />
-  <h2>Add to Cart</h2>
-</div>
-    <ShoppingCartOutlined />
-  </Button>
-  </div>
-  </Card>
-  </div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{width: "100%", height: "auto"}}
-    cover={   <img src ={Cornandspinach} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-   
-   <div className="container">
- 
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle">
-  <Meta title="Corn & Spinach Burger  "  description="A healthy and creamy burger with a patty made of sweet corn, spinach, and cheese, creating a unique taste and texture."/>
-  </div>
-     
-     <div className="customizebutton">
-     <Button onClick={() => 
-  addToCart({
-    name: "Corn & Spinach Burger",
-    img: Cornandspinach,
-    price: 120
-  })}><div className="CartContainer">
-  <ShoppingCartOutlined />
-  <h2>Add to Cart</h2>
-</div>
-  </Button>
-  </div>
-  </Card>
-  </div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{width: "100%", height: "auto"}}
-    cover={   <img src ={Tofuburger} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-    
-    <div className="container">
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle">
-  <Meta title="Tofu Teriyaki Burger   "  description="A Japanese-inspired burger featuring grilled tofu coated in teriyaki sauce, giving it a sweet and savory taste, paired with crunchy lettuce."/>
-  </div>
- 
-  <div className="customizebutton">
-  <Button onClick={() => 
-  addToCart({
-    name: "Tofu Teriyaki Burger",
-    img: Tofuburger,
-    price: 120
-  })}> <div className="CartContainer">
-  <ShoppingCartOutlined />
-  <h2>Add to Cart</h2>
-</div>
-  </Button>
-  </div>
-
-  </Card>
-  </div>
-
-  <div className="Card1">
-   <Card
-    hoverable
-    style={{width: "100%", height: "auto"}}
-    cover={   <img src ={Jackfruit} alt="Burger"style={{height: "250px", width: "100%"}}/>}
-  >
-    
-    <div className="container">
-    <div className="veg-badge-container">
-        <span class="circle" />
-  </div>
-  </div>
-  <div className="designtittle">
-  <Meta title="Vegan Jackfruit Burger "  description="A plant-based BBQ burger made with shredded jackfruit that mimics pulled pork, topped with coleslaw and smoky BBQ sauce."/>
-
-  </div>
-  
-  <div className="customizebutton">
-  <Button onClick={() => addToCart({
-  name: "Vegan Jackfruit Burger",
-  img: Jackfruit,
-
-  price: 120
-})}>
-  <div className="CartContainer">
-    <ShoppingCartOutlined />
-    <h2>Add to Cart</h2>
-  </div>
-</Button>
-  </div>
-
-  </Card>
-  </div>
-  </div>
+                  style={{
+                    backgroundColor: "#FF5733",
+                    color: "white",
+                    border: "none",
+                    padding: "6px 16px",
+                    borderRadius: "5px"
+                  }}
+                >
+                  Customize
+                </Button>
+              </div>
+            ]}
+          >
+            <Meta title={item.name} description={item.desc} />
+          </Card>
+        ))}
+      </div>
   
 
-  </div>
-
   
+  
+  </div>
   <div>
   <div className="heading-with-badge">
     <h1 style={{ fontFamily: "sans-serif", fontWeight: "600", marginLeft: "20px" }}>
@@ -553,14 +268,6 @@ const handleCustomize = () => {
   ))}
 </div>
 
-
-    
-  
-
-  
-
-  </div>
-  
   </div>
 
   );

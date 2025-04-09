@@ -39,6 +39,7 @@ import SOURCREAM from "../../../Assets/images/Dips/Sour-Cream-and-Chive-Dip-4.jp
 import TOMATO from "../../../Assets/images/Dips/Tomato ketchup.jpeg";
 import wasabi from "../../../Assets/images/Dips/wasabi-mayo-6.jpg";
 import MANGO from "../../../Assets/images/Dips/Mango-Habanero-BBQ-Sauce-Recipe1.jpg";
+import doublebeef from "../../../Assets/images/Nonvegtoppins/beefstrips.jpeg";
 import { useCart } from "../../Webcomponents/Cardcontext/Cardcontext";
 
 import "./burgerstyle.css";
@@ -47,61 +48,69 @@ import { specialChars } from "@testing-library/user-event";
 
 
 const burgerItems = [
-  { name: "Avacado", img: Avacado ,price:30},
-  { name: "bellpepper", img: Bellpepper,price:30 },
-  { name: "Cheeseslice  ", img: Cheeseslice ,price:30},
-  { name: "Grill Mushroom  ", img: Grilledmushroom ,price:30},
-  { name: "Lettuce   ", img: Lettuce ,price:30},
-  { name: "   Olives", img: Olives ,price:30},
-  { name: "  Onion rings", img: Oninionrings,price:30 },
-  { name: "   Panneer cubes", img: Paneercubes ,price:30},
-  { name: " Pickles", img: Pickles ,price:30},
-  { name: "  Spinach", img: Spinach,price:30},
-  {name: "Sweetcorn",img: Sweetcorn,price:30},
-  {name: "Tomatoes",img: Tomatoes,price:30},
+  { id:'21', name: "Avacado", img: Avacado ,price:30},
+  {  id: '22',name: "bellpepper", img: Bellpepper,price:30 },
+  { id:'23',name: "Cheeseslice  ", img: Cheeseslice ,price:30},
+  { id:'24',name: "Grill Mushroom  ", img: Grilledmushroom ,price:30},
+  { id:'25',name: "Lettuce   ", img: Lettuce ,price:30},
+  { id:'26',name: "   Olives", img: Olives ,price:30},
+  { id:'27',name: "  Onion rings", img: Oninionrings,price:30 },
+  {id:'28', name: "   Panneer cubes", img: Paneercubes ,price:30},
+  { id:'29',name: " Pickles", img: Pickles ,price:30},
+  { id:'30',name: "  Spinach", img: Spinach,price:30},
+  {id:'31',name: "Sweetcorn",img: Sweetcorn,price:30},
+  {id:'32',name: "Tomatoes",img: Tomatoes,price:30},
 ];
 const Nonvegtoppins = [
-  {name: "chicken Sausage",img: Sausage,price:30},
-  {name: "Bacon bits ", img: Bacon,price:30},
-  {name: "BBq pulled chicken",img: BBqpulled,price:30},
-  {name: "Beef strip",img: Beefstrips,price:30},
-  {name: "Chicken crumbles",img: Chickencrumble,price:30},
-  {name: "Egg Fry",img: Eggfry,price:30},
-  {name: "Grilled chicken",img: Grilledchicken,price:30},
-  {name: "Prawn tempura ",img: Prawn,price:30},
-  {name: "Tuna flakes", img: Tunaflakes,price:30},
+  {name: "chicken Sausage",img: Sausage,price:30,id:'33'},
+  {name: "Bacon bits ", img: Bacon,price:30,id:'34'},
+  {name: "Double beef patty", img: doublebeef,price:30,id:'35'},
+  {name: "BBq pulled chicken",img: BBqpulled,price:30,id:'36'},
+  {name: "Beef strip",img: Beefstrips,price:30,id:'37'},
+  {name: "Chicken crumbles",img: Chickencrumble,price:30,id:'38'},
+  {name: "Egg Fry",img: Eggfry,price:30,id:'39'},
+  {name: "Grilled chicken",img: Grilledchicken,price:30,id:'40'},
+  {name: "Prawn tempura ",img: Prawn,price:30,id:'41'},
+  {name: "Tuna flakes", img: Tunaflakes,price:30,id:'42'},
+  {name: "BBQ pulled chicken", img: BBqpulled,price:30,id:'43'},
 
 ];
 const ClassicSauces = [
-  { name: "BBQ SAUCE", img: BBQSAUCE ,price:30},
+  { name: "BBQ SAUCE", img: BBQSAUCE ,price:30,id:'44'},
+  { name: "Ketchup", img: KETCHUP ,price:30,id:'45'},
+  { name: "Mayo", img: MAYONNAISE ,price:30,id:'46'},
+  { name: "Buffalo Sauce", img: BUFFALOEsauce ,price:30,id:'47'},
+  { name: "Chipotle Sauce", img: Chipotle ,price:30,id:'48'},
+  { name: "Ranch Dressing", img: RANCH ,price:30,id:'49'},
+  { name: "Sour Cream", img: SOURCREAM ,price:30,id:'50'},
   
-  { name: "Honey mustard", img: Honeymustard ,price:30},
+  { name: "Honey mustard", img: Honeymustard ,price:30,id:'51'},
  
-  { name: "Mayo", img: MAYO ,price:30},
+  { name: "Mayo", img: MAYO ,price:30,id:'52'},
   
-  { name: "Tomato ketchup ", img: TOMATO,price:30 },
-,
+  { name: "Tomato ketchup ", img: TOMATO,price:30, id:'53'},
+
 ];
 
 const SPicysauces = [
-  { name: "PERIPERI SAUCE", img: PERIPERI ,price:30},
-  { name: "Spicy Chipotle Sauce", img: Chipotle ,price:30},
-  { name: "Jalapeño Cheese Sauce", img: JALAPENJO ,price:30},
-  { name: "Buffalo Sauce", img: BUFFALOEsauce ,price:30},
+  { name: "PERIPERI SAUCE", img: PERIPERI ,price:30,id:'54'},
+  { name: "Spicy Chipotle Sauce", img: Chipotle ,price:30,id:'55'},
+  { name: "Jalapeño Cheese Sauce", img: JALAPENJO ,price:30,id:'56'},
+  { name: "Buffalo Sauce", img: BUFFALOEsauce ,price:30,id:'57'},
 
 ];
 
 const CreamySauces = [
-  { name: "Garlic Aioli", img: Garlic ,price:30},
-  { name: "Ranch Dressing", img: RANCH ,price:30},
-  { name: "Sour Cream", img: SOURCREAM ,price:30},
-  { name: "cheese sauce", img: NACHOCHEESE ,price:30},
+  { name: "Garlic Aioli", img: Garlic ,price:30,id:'58'},
+  { name: "Ranch Dressing", img: RANCH ,price:30,id:'59'},
+  { name: "Sour Cream", img: SOURCREAM ,price:30,id:'60'},
+  { name: "cheese sauce", img: NACHOCHEESE ,price:30,id:'61'},
 ];
  const  SpecialSauces = [
-  { name: "Mint Chutney", img: MINTCHUTNEY ,price:30},
-  { name: "Hummus", img: HUMMUS ,price:30},
-  { name: "Wasabi mayo", img: wasabi ,price:30},
-  { name: "Mango habanero", img: MANGO ,price:30},
+  { name: "Mint Chutney", img: MINTCHUTNEY ,price:30,id:'62'},
+  { name: "Hummus", img: HUMMUS ,price:30,id:'63'},
+  { name: "Wasabi mayo", img: wasabi ,price:30,id:'64'},
+  { name: "Mango habanero", img: MANGO ,price:30,id:'65'},
  ];
 
 
