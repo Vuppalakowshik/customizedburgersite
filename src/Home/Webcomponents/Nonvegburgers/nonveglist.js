@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Button ,Input} from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import { BannerComponent } from '../Banner/Banner';
-import { useCart } from '../Cardcontext/Cardcontext';
+import { BannerComponent } from '../Banner/Banner.js';
+import { useCart } from '../Cardcontext/Cardcontext.js';
 import { useNavigate } from 'react-router-dom';
 import  { useState } from "react";
 
@@ -26,6 +26,7 @@ export const Nonveglist = () => {
     const navigate = useNavigate();
   const { setCartItems, cartItems } = useCart();
     const [searchQuery, setSearchQuery] = useState('');
+    const [addedItems, setAddedItems] = useState({});
 
     const addToCart = (item) => {
       const existingItem = cartItems.find(i => i.name === item.name);
@@ -37,6 +38,7 @@ export const Nonveglist = () => {
       } else {
         setCartItems([...cartItems, { ...item, quantity: 1 }]);
       }
+      setAddedItems(prev => ({ ...prev, [item.id]: true }));
     };
     
 
@@ -120,7 +122,7 @@ export const Nonveglist = () => {
       price: 160,
     },
   ];
-
+  const isItemAdded = (itemId) => addedItems[itemId];
   const filteredBurgers = burgers.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   ).map(item => ({
@@ -157,12 +159,17 @@ export const Nonveglist = () => {
             actions={[
               <div className="customizebutton" style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
            <Button
-            onClick={() => addToCart(item)}>
-  <div className="CartContainer" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-    <ShoppingCartOutlined />
-    <h2>Add to Cart</h2>
-  </div>
-</Button>
+                onClick={() => addToCart(item)} // Add to cart logic
+                disabled={isItemAdded(item.id)} // Disable button if item is already in the cart
+                style={{ backgroundColor: isItemAdded(item.id) ? 'gray' : '#FF5733', color: 'white' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <ShoppingCartOutlined />
+                  <h4 style={{ margin: 0 }}>
+                    {isItemAdded(item.id) ? 'Added to Cart' : 'Add to Cart'}
+                  </h4>
+                </div>
+              </Button>
   
                   <Button
               onClick={() => navigate("/customizeburger")}

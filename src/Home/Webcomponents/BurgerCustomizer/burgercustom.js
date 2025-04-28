@@ -40,10 +40,10 @@ import TOMATO from "../../../Assets/images/Dips/Tomato ketchup.jpeg";
 import wasabi from "../../../Assets/images/Dips/wasabi-mayo-6.jpg";
 import MANGO from "../../../Assets/images/Dips/Mango-Habanero-BBQ-Sauce-Recipe1.jpg";
 import doublebeef from "../../../Assets/images/Nonvegtoppins/beefstrips.jpeg";
-import { useCart } from "../../Webcomponents/Cardcontext/Cardcontext";
+import { useCart } from "../../Webcomponents/Cardcontext/Cardcontext.js";
 
 import "./burgerstyle.css";
-import { BannerComponent } from "../Banner/Banner";
+import { BannerComponent } from "../Banner/Banner.js";
 import { specialChars } from "@testing-library/user-event";
 
 
@@ -119,6 +119,7 @@ const CreamySauces = [
 export const BurgerCustomizer = () => {
 
   const { cartItems, setCartItems } = useCart();
+  
 
   const addToCart = (item) => {
     const existingItemIndex = cartItems.findIndex(cartItem => cartItem.name === item.name);

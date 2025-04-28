@@ -1,16 +1,17 @@
 import React from "react";
 import { Routes, Route, Router } from "react-router-dom";
-import { Homepage } from "./Home/Webcomponents/Mainpage/main";
-import { BurgerCustomizer } from "./Home/Webcomponents/BurgerCustomizer/burgercustom";
-import { BannerComponent } from "./Home/Webcomponents/Banner/Banner";
-import {ViewCart} from "./Home/Webcomponents/Viewcart/Viewcart";
-import { BurgerCard } from "./Home/Webcomponents/Burgercart/burgercart";
-import { CartProvider } from "./Home/Webcomponents/Cardcontext/Cardcontext"; 
-import { BurgerList } from "./Home/Webcomponents/Burgerlist/burgerlist";
-import { Nonveglist } from "./Home/Webcomponents/Nonvegburgers/nonveglist";
-import { Navbar } from "./Home/Webcomponents/Navbar/navbar";
-import { Signup } from "./Home/Webcomponents/Signuppage/Signuppage"; 
-import {Login } from "./Home/Webcomponents/Loginpage/Loginpage";
+import { Homepage } from "./Home/Webcomponents/Mainpage/main.js";
+import { BurgerCustomizer } from "./Home/Webcomponents/BurgerCustomizer/burgercustom.js";
+import { BannerComponent } from "./Home/Webcomponents/Banner/Banner.js";
+import { ViewCart } from "./Home/Webcomponents/Viewcarts/Viewcart.js" // Correct pathimport { BurgerCard } from "./Home/Webcomponents/Burgercart/burgercart.js";
+import { CartProvider } from "./Home/Webcomponents/Cardcontext/Cardcontext.js"; 
+import { BurgerList } from "./Home/Webcomponents/Burgerlist/burgerlist.js";
+import { Nonveglist } from "./Home/Webcomponents/Nonvegburgers/nonveglist.js";
+import { Navbar } from "./Home/Webcomponents/Navbar/navbar.js";
+import { Signup } from "./Home/Webcomponents/Signuppage/Signuppage.js"; 
+import { Login } from "./Home/Webcomponents/Loginpage/Loginpage.js";
+import { BurgerCard } from "./Home/Webcomponents/Burgercart/burgercart.js";
+
 
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/navbar" element={<Navbar />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+
 
 
         {/* Add more routes as needed */}

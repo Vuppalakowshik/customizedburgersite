@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useCart } from  "../Cardcontext/Cardcontext"; // Adjust the path as necessary
+import { useCart } from  "../Cardcontext/Cardcontext.js"; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerCard = ({ burger }) => {

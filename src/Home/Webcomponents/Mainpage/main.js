@@ -1,6 +1,6 @@
 import React from "react";
 import  { useState } from "react";
-import { useCart } from "../Cardcontext/Cardcontext"; // import context
+import { useCart } from "../Cardcontext/Cardcontext.js"; // import context
 import { useNavigate } from "react-router-dom";
 
 import { Button, Card,  Space, Input, } from "antd";
@@ -28,13 +28,13 @@ import doublebeef from "../../../Assets/images/Double-Cheeseburger-square-FS-42.
 import lambandmint from "../../../Assets/images/Lambandmintburger.jpeg";
 import fishfillet from "../../../Assets/images/fishfilletburger.webp";
 import prawntemp from "../../../Assets/images/prawnTempuraburger.jpg"
-import { BurgerCustomizer } from "../BurgerCustomizer/burgercustom";
+import { BurgerCustomizer } from "../BurgerCustomizer/burgercustom.js";
 import Dips from "../../../Assets/images/dips.jpg";
-import { BannerComponent } from "../Banner/Banner";
+import { BannerComponent } from "../Banner/Banner.js";
 import ReactDOM from "react-dom/client";
-import App from "../../../App";
-import { CartProvider } from "../Cardcontext/Cardcontext";
-import { CartContext } from "../Cardcontext/Cardcontext"; // ✅ Use the actual context, not the provider
+import App from "../../../App.js";
+import { CartProvider } from "../Cardcontext/Cardcontext.js";
+import { CartContext } from "../Cardcontext/Cardcontext.js"; // ✅ Use the actual context, not the provider
 import { useContext } from "react";
 
 const {Meta} = Card;
@@ -147,7 +147,8 @@ export const Homepage = () => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
-    const { cartItems, setCartItems } = useCart();
+  const { cartItems, setCartItems } = useContext(CartContext); 
+  const [addedItems, setAddedItems] = useState({}); 
   
     const addToCart = (item) => {
       const existingItemIndex = cartItems.findIndex(cartItem => cartItem.name === item.name);
@@ -157,14 +158,15 @@ export const Homepage = () => {
         setCartItems(updatedCart);
       } else {
         setCartItems([...cartItems, { ...item, quantity: 1 }]);
-      };
+      }
+      setAddedItems(prev => ({ ...prev, [item.id]: true }));
     };
 
   const getItemQuantity = (itemName) => {
     const found = cartItems.find(cartItem => cartItem.name === itemName);
     return found ? found.quantity : 0;
   };
-
+  const isItemAdded = (itemId) => addedItems[itemId];
 
 
 const handleCustomize = () => {
@@ -200,42 +202,67 @@ const filteredBurgers = burgerItems.filter((item) =>
 
 <div className="row">
 <div className="row" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-      {filteredBurgers.map((item, index) => (
-          <Card
-            key={index}
-            hoverable
-            style={{ width: 300, margin: 16, border: item.highlight ? '3px solid #ff4d4f' : '1px solid #f0f0f0',
-              boxShadow: item.highlight ? '0 0 10px rgba(255,77,79,0.6)' : 'none',
-              transition: 'all 0.3s', }}
-            cover={<img alt={item.name} src={item.img} style={{ height: 200, objectFit: 'cover' }} />}
-            actions={[
-              <div className="customizebutton" style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: "center" }}>
-                <Button onClick={() => addToCart(item)}>
-                  <div className="CartContainer" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                    <ShoppingCartOutlined />
-                    <h4 style={{ margin: 0 }}>Add to Cart</h4>
-                  </div>
-                </Button>
-            
-                <Button
-              onClick={() => navigate("/customizeburger")}
+{filteredBurgers.map((item, index) => (
+  <Card
+    key={index}
+    hoverable
+    style={{
+      width: 300,
+      margin: 16,
+      border: item.highlight ? '3px solid rgb(255, 87, 51)' : '1px solid #f0f0f0',
+      boxShadow: item.highlight
+        ? '0 0 10px rgba(255, 87, 51, 0.6)'
+        : 'none',
+      transition: 'all 0.3s',
+    }}
+    cover={
+      <img
+        alt={item.name}
+        src={item.img}
+        style={{ height: 200, objectFit: 'cover' }}
+      />
+    }
+    actions={[
+      <div
+        className="customizebutton"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          alignItems: 'center',
+        }}
+      >
+         <Button
+                onClick={() => addToCart(item)} // Add to cart logic
+                disabled={isItemAdded(item.id)} // Disable button if item is already in the cart
+                style={{ backgroundColor: isItemAdded(item.id) ? 'gray' : '#FF5733', color: 'white' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <ShoppingCartOutlined />
+                  <h4 style={{ margin: 0 }}>
+                    {isItemAdded(item.id) ? 'Added to Cart' : 'Add to Cart'}
+                  </h4>
+                </div>
+              </Button>
 
-                  style={{
-                    backgroundColor: "#FF5733",
-                    color: "white",
-                    border: "none",
-                    padding: "6px 16px",
-                    borderRadius: "5px"
-                  }}
-                >
-                  Customize
-                </Button>
-              </div>
-            ]}
-          >
-            <Meta title={item.name} description={item.desc} />
-          </Card>
-        ))}
+        <Button
+          onClick={() => navigate('/customizeburger')}
+          style={{
+            backgroundColor: '#FF5733',
+            color: 'white',
+            border: 'none',
+            padding: '6px 16px',
+            borderRadius: '5px',
+          }}
+        >
+          Customize
+        </Button>
+      </div>,
+    ]}
+  >
+    <Meta title={item.name} description={item.desc} />
+  </Card>
+))}
       </div>
   
 
