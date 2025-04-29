@@ -3,9 +3,10 @@ import { useCart } from "../Cardcontext/Cardcontext.js";
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button } from 'antd'; // for clean AntD buttons
 
 export const ViewCart = () => {
-  const { cartItems, fetchCart, addToCart, removeFromCart, clearCart } = useCart();
+  const { cartItems, fetchCart, addToCart, removeFromCart, clearCart, incrementQuantity, decrementQuantity } = useCart();
   const navigate = useNavigate();
   const mobile = localStorage.getItem("userMobile");
 
@@ -55,16 +56,35 @@ export const ViewCart = () => {
                 <p>Total: ₹{item.price * item.quantity}</p>
               </div>
               <div>
-                <button onClick={() => addToCart(item)} style={{ padding: "5px 10px", backgroundColor: "#FF5733", color: "#fff", border: "none", borderRadius: "5px", marginRight: "8px" }}>Add</button>
-                <button onClick={() => removeFromCart(item.name)} style={{ padding: "5px 10px", backgroundColor: "#888", color: "#fff", border: "none", borderRadius: "5px" }}>Remove</button>
+                <Button
+                  onClick={() => incrementQuantity(item.name)}
+                  style={{ marginRight: "8px", backgroundColor: "#4CAF50", color: "#fff" }}
+                >
+                  +
+                </Button>
+
+                <Button
+                  onClick={() => decrementQuantity(item.name)}
+                  danger
+                  style={{ marginRight: "8px" }}
+                >
+                  -
+                </Button>
+
+                <Button
+                  onClick={() => removeFromCart(item.name)}
+                  style={{ padding: "5px 10px", backgroundColor: "#888", color: "#fff", border: "none", borderRadius: "5px" }}
+                >
+                  Remove
+                </Button>
               </div>
             </div>
           ))}
           <hr />
           <h3>Total Amount: ₹{totalAmount}</h3>
-          <button onClick={handlePlaceOrder} style={{ padding: "10px 20px", backgroundColor: "#FF5733", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", marginTop: "20px" }}>
+          <Button onClick={handlePlaceOrder} style={{ padding: "10px 20px", backgroundColor: "#FF5733", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", marginTop: "20px" }}>
             Place Order
-          </button>
+          </Button>
         </>
       )}
     </div>

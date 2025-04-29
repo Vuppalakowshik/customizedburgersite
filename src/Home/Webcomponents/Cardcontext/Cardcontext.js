@@ -8,30 +8,22 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [cart, setCart] = useState([]); // New state for updated cart
-  const mobile = localStorage.getItem("userMobile");
+  const [cart, setCart] = useState([]);
+  const [currentMobile, setCurrentMobile] = useState(localStorage.getItem("userMobile"));
 
-  // Old addToCart
-  const addToCart = async (item, product) => {
+  // Add to cart
+  const addToCart = async (item) => {
     const mobile = localStorage.getItem("userMobile");
     if (!mobile) return;
     try {
-      const userId = 'userId';
-      // New cart add logic
-      const res = await axios.post('/api/cart/add', { userId, product });
-
-      await axios.post("http://localhost:5000/api/cart/add", { mobile, ...item, quantity: 1 });
+      await axios.post("http://localhost:5000/api/cart/add", { mobile, item });
       await fetchCart();
-
-      // Update both states
-      setCartItems(res.data.items);
-      setCart(res.data.items);
     } catch (err) {
       console.error("Failed to add item:", err);
     }
   };
 
-  // New simplified addToCart for only product (if needed separately)
+  // Add product (if needed)
   const addProductToCart = async (product) => {
     try {
       const userId = 'userId';
@@ -42,6 +34,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Fetch cart
   const fetchCart = async () => {
     const mobile = localStorage.getItem("userMobile");
     if (!mobile) return;
@@ -53,6 +46,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Remove from cart
   const removeFromCart = async (itemName) => {
     const mobile = localStorage.getItem("userMobile");
     if (!mobile) return;
@@ -64,21 +58,64 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  // Clear cart
   const clearCart = () => {
     setCartItems([]);
     setCart([]);
   };
 
+  // 👇 Detect mobile number changes and reset cart
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedMobile = localStorage.getItem("userMobile");
+      if (storedMobile !== currentMobile) {
+        setCurrentMobile(storedMobile);
+        clearCart();
+        if (storedMobile) {
+          fetchCart();
+        }
+      }
+    }, 500); // checks every 0.5 sec — you can adjust
+
+    return () => clearInterval(interval);
+  }, [currentMobile]);
+
+  const incrementQuantity = async (itemName) => {
+    const mobile = localStorage.getItem("userMobile");
+    if (!mobile) return;
+    try {
+      await axios.post(`http://localhost:5000/api/cart/increment/${mobile}`, { name: itemName });
+      await fetchCart();
+    } catch (err) {
+      console.error("Failed to increment quantity", err);
+    }
+  };
+  
+  const decrementQuantity = async (itemName) => {
+    const mobile = localStorage.getItem("userMobile");
+    if (!mobile) return;
+    try {
+      await axios.post(`http://localhost:5000/api/cart/decrement/${mobile}`, { name: itemName });
+      await fetchCart();
+    } catch (err) {
+      console.error("Failed to decrement quantity", err);
+    }
+  };
+  
+
+
   return (
     <CartContext.Provider value={{
       cartItems,
-      cart,              // New state available here
+      cart,
       setCartItems,
       fetchCart,
       addToCart,
-      addProductToCart,  // Expose new add function if you want
+      addProductToCart,
       removeFromCart,
-      clearCart
+      clearCart,
+      incrementQuantity,   
+  decrementQuantity,
     }}>
       {children}
     </CartContext.Provider>
