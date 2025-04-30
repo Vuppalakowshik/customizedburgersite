@@ -33,6 +33,7 @@ export const Login = () => {
 
       // ✅ Reset everything on login
       localStorage.setItem("userMobile", mobile);
+
       localStorage.removeItem("cartItems");
 
       // ✅ Fetch the user's cart immediately and update context + localStorage

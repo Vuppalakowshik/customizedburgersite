@@ -37,14 +37,18 @@ export const CartProvider = ({ children }) => {
   // Fetch cart
   const fetchCart = async () => {
     const mobile = localStorage.getItem("userMobile");
+    console.log("fetchCart called — mobile:", mobile);
     if (!mobile) return;
     try {
       const res = await axios.get(`http://localhost:5000/api/cart/${mobile}`);
+      console.log("Cart fetch result:", res.data);
       setCartItems(res.data);
     } catch (err) {
       console.error("Failed to fetch cart:", err);
     }
   };
+  
+  
 
   // Remove from cart
   const removeFromCart = async (itemName) => {
@@ -66,41 +70,57 @@ export const CartProvider = ({ children }) => {
 
   // 👇 Detect mobile number changes and reset cart
   useEffect(() => {
-    const interval = setInterval(() => {
-      const storedMobile = localStorage.getItem("userMobile");
-      if (storedMobile !== currentMobile) {
-        setCurrentMobile(storedMobile);
-        clearCart();
-        if (storedMobile) {
-          fetchCart();
-        }
-      }
-    }, 500); // checks every 0.5 sec — you can adjust
-
-    return () => clearInterval(interval);
-  }, [currentMobile]);
-
-  const incrementQuantity = async (itemName) => {
     const mobile = localStorage.getItem("userMobile");
-    if (!mobile) return;
-    try {
-      await axios.post(`http://localhost:5000/api/cart/increment/${mobile}`, { name: itemName });
-      await fetchCart();
-    } catch (err) {
-      console.error("Failed to increment quantity", err);
+    console.log("Effect fired — mobile:", mobile);
+    if (mobile) {
+      fetchCart();
     }
-  };
+  }, []);
   
-  const decrementQuantity = async (itemName) => {
-    const mobile = localStorage.getItem("userMobile");
-    if (!mobile) return;
-    try {
-      await axios.post(`http://localhost:5000/api/cart/decrement/${mobile}`, { name: itemName });
-      await fetchCart();
-    } catch (err) {
-      console.error("Failed to decrement quantity", err);
-    }
-  };
+  
+//----------------------------------------------------------->incrmet
+// In CartContext.js
+const incrementQuantity = async (itemName) => {
+  const mobile = localStorage.getItem("userMobile");
+  if (!mobile) return;
+
+  // Local optimistic update
+  setCartItems(prev =>
+    prev.map(item =>
+      item.name === itemName ? { ...item, quantity: item.quantity + 1 } : item
+    )
+  );
+
+  // Backend update
+  try {
+    await axios.post(`http://localhost:5000/api/cart/addquantity`, { mobile, name: itemName });
+  } catch (err) {
+    console.error("Failed to increment quantity", err);
+  }
+};
+
+const decrementQuantity = async (itemName) => {
+  const mobile = localStorage.getItem("userMobile");
+  if (!mobile) return;
+
+  // Local optimistic update
+  setCartItems(prev =>
+    prev
+      .map(item =>
+        item.name === itemName ? { ...item, quantity: item.quantity - 1 } : item
+      )
+      .filter(item => item.quantity > 0)
+  );
+
+  // Backend update
+  try {
+    await axios.post(`http://localhost:5000/api/cart/decreasequantity`, { mobile, name: itemName });
+  } catch (err) {
+    console.error("Failed to decrement quantity", err);
+  }
+};
+
+//-------------------------------------------------------> endshere
   
 
 

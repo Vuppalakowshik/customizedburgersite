@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Button } from 'antd'; // for clean AntD buttons
 
 export const ViewCart = () => {
-  const { cartItems, fetchCart, addToCart, removeFromCart, clearCart, incrementQuantity, decrementQuantity } = useCart();
+  const { cartItems, fetchCart, addToCart, removeFromCart, clearCart, incrementQuantity, decrementQuantity ,} = useCart();
   const navigate = useNavigate();
   const mobile = localStorage.getItem("userMobile");
 
@@ -29,6 +29,19 @@ export const ViewCart = () => {
       alert("Order failed.");
     }
   };
+
+  const handleIncrement = (itemName) => {
+    console.log("Add button clicked for:", itemName); // Check if this logs
+    incrementQuantity(itemName);
+  };
+  
+  const handleDecrement = (itemName) => {
+    console.log("Remove button clicked for:", itemName); // Check if this logs
+    decrementQuantity(itemName);
+  };
+  
+
+
 
   useEffect(() => {
     fetchCart();
@@ -56,27 +69,19 @@ export const ViewCart = () => {
                 <p>Total: ₹{item.price * item.quantity}</p>
               </div>
               <div>
-                <Button
-                  onClick={() => incrementQuantity(item.name)}
-                  style={{ marginRight: "8px", backgroundColor: "#4CAF50", color: "#fff" }}
-                >
-                  +
-                </Button>
+              <Button
+  onClick={() => incrementQuantity(item.name)}
+  style={{ marginRight: "8px", backgroundColor: "#4CAF50", color: "#fff" }}
+>
+  +
+</Button>
 
-                <Button
-                  onClick={() => decrementQuantity(item.name)}
-                  danger
-                  style={{ marginRight: "8px" }}
-                >
-                  -
-                </Button>
-
-                <Button
-                  onClick={() => removeFromCart(item.name)}
-                  style={{ padding: "5px 10px", backgroundColor: "#888", color: "#fff", border: "none", borderRadius: "5px" }}
-                >
-                  Remove
-                </Button>
+<Button
+  onClick={() => decrementQuantity(item.name)}
+  danger
+>
+  -
+</Button>
               </div>
             </div>
           ))}
