@@ -2,14 +2,12 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Backimage from "../../../Assets/images/React App_files/backgroundimage.jpg";
-import { CartContext } from "../Cardcontext/Cardcontext.js";
-import { fetchCart } from "../Cardcontext/Fetchchart.js";
-
+import { useCart } from "../Cardcontext/Cardcontext.js";
 
 export const Login = () => {
   const [mobile, setMobile] = useState("");
   const navigate = useNavigate();
-  const { setCartItems } = useContext(CartContext); // 👈 get the setCartItems function from context
+  const { clearCart, setCartItems, fetchCart } = useCart();  // 👈 use context fetchCart
 
   const handleLogin = async () => {
     if (mobile.length !== 10) {
@@ -31,48 +29,18 @@ export const Login = () => {
         return;
       }
 
-      // ✅ Reset everything on login
+      // ✅ Clear previous cart & set new mobile
+      clearCart();
       localStorage.setItem("userMobile", mobile);
 
-      localStorage.removeItem("cartItems");
-
-      // ✅ Fetch the user's cart immediately and update context + localStorage
-      await fetchCart(mobile, setCartItems);
+      // ✅ Fetch new user's cart via context
+      await fetchCart();
 
       alert("Login Successful!");
       navigate("/homepage");
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Login Failed: " + error.message);
-    }
-  };
-
-  const handleSignup = async () => {
-    if (mobile.length !== 10) {
-      alert("Please enter a valid 10-digit mobile number");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:5000/api/users/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(data.message || "Signup failed.");
-        return;
-      }
-
-      localStorage.setItem("userMobile", mobile);
-      alert("Signup Successful!");
-      navigate("/homepage");
-    } catch (error) {
-      console.error("Error signing up:", error);
-      alert("Signup Failed: " + error.message);
     }
   };
 

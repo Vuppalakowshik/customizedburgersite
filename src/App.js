@@ -13,6 +13,7 @@ import { Login } from "./Home/Webcomponents/Loginpage/Loginpage.js";
 import { BurgerCard } from "./Home/Webcomponents/Burgercart/burgercart.js";
 import{AdminLogin} from "./admin/webcomponenst/pages/AdminLogin.js";
 import {Dashboard} from "./admin/webcomponenst/Dashboard/Dashboard.js";
+import { ViewOrders } from './Home/Webcomponents/Viewcarts/Vieworders.js';
 
 
 
@@ -36,6 +37,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/adminlogin" element={<AdminLogin/>}></Route>
         <Route path="/dashboard" element={<Dashboard/>}></Route>
+        <Route path="/vieworders" element={<ViewOrders/>}></Route>
+
 
 
 

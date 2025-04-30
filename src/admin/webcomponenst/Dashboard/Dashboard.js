@@ -48,15 +48,27 @@ export const Dashboard = ({ token }) => {
       </div>
 
       <div className="dashboard-section">
-        <h3>Orders</h3>
+  <h3>Orders</h3>
+  <ul>
+    {orders.map((order) => (
+      <li key={order._id} style={{ marginBottom: "15px" }}>
+        <strong>Order ID:</strong> {order._id}<br />
+        <strong>Mobile:</strong> {order.mobile}<br />
+        <strong>Total:</strong> ₹{order.totalAmount}<br />
+        <strong>Date:</strong> {new Date(order.createdAt).toLocaleString()}<br />
+        <strong>Items:</strong>
         <ul>
-          {orders.map((order) => (
-            <li key={order._id}>
-              {order.burgerName} - {order.quantity}
+          {order.cartItems.map((item, idx) => (
+            <li key={idx}>
+              {item.name} × {item.quantity} = ₹{item.price * item.quantity}
             </li>
           ))}
         </ul>
-      </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
     </div>
   );
 };

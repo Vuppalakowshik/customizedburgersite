@@ -11,17 +11,59 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [currentMobile, setCurrentMobile] = useState(localStorage.getItem("userMobile"));
 
-  // Add to cart
-  const addToCart = async (item) => {
-    const mobile = localStorage.getItem("userMobile");
-    if (!mobile) return;
-    try {
-      await axios.post("http://localhost:5000/api/cart/add", { mobile, item });
-      await fetchCart();
-    } catch (err) {
-      console.error("Failed to add item:", err);
-    }
+  // // Add to cart
+  // const addToCart = async (item) => {
+  //   const mobile = localStorage.getItem("userMobile");
+  //   if (!mobile) return;
+  //   try {
+  //     await axios.post("http://localhost:5000/api/cart/add", { mobile, item });
+  //     await fetchCart();
+  //   } catch (err) {
+  //     console.error("Failed to add item:", err);
+  //   }
+  // };
+//---------------------------------------------------------------------------------------------> paste here 
+
+  // // Remove from cart
+  // const removeFromCart = async (itemName) => {
+  //   const mobile = localStorage.getItem("userMobile");
+  //   if (!mobile) return;
+  //   try {
+  //     await axios.delete(`http://localhost:5000/api/cart/remove/${mobile}/${itemName}`);
+  //     await fetchCart();
+  //   } catch (err) {
+  //     console.error("Failed to remove item:", err);
+  //   }
+  // };
+//---------------------------------------------------------------------------->
+const addToCart = (item) => {
+  setCartItems((prevItems) => [...prevItems, item]);
+};
+
+
+
+const removeFromCart = (itemId) => {
+  setCartItems((prevItems) => prevItems.filter((item) => item._id !== itemId));
+};
+
+
+
+const updateQuantity = (itemId, quantity) => {
+  setCartItems((prevItems) =>
+    prevItems.map((item) =>
+      item._id === itemId ? { ...item, quantity } : item
+    )
+  );
+};
+
+
+  // Clear cart
+  const clearCart = () => {
+    setCartItems([]);
+    setCart([]);
   };
+
+//-------------------------------------------------------------------------------->
 
   // Add product (if needed)
   const addProductToCart = async (product) => {
@@ -50,23 +92,9 @@ export const CartProvider = ({ children }) => {
   
   
 
-  // Remove from cart
-  const removeFromCart = async (itemName) => {
-    const mobile = localStorage.getItem("userMobile");
-    if (!mobile) return;
-    try {
-      await axios.delete(`http://localhost:5000/api/cart/remove/${mobile}/${itemName}`);
-      await fetchCart();
-    } catch (err) {
-      console.error("Failed to remove item:", err);
-    }
-  };
 
-  // Clear cart
-  const clearCart = () => {
-    setCartItems([]);
-    setCart([]);
-  };
+
+
 
   // 👇 Detect mobile number changes and reset cart
   useEffect(() => {
