@@ -16,7 +16,7 @@ export const ViewCart = () => {
     try {
       if (!mobile) return alert("Please login first!");
       const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      await axios.post(`http://localhost:5000/api/orders/placeorder`, {
+      await axios.post(`http://localhost:5000/api/orders/placeorder`, { 
         mobile,
         cartItems,
         totalAmount,
@@ -44,10 +44,12 @@ export const ViewCart = () => {
 
 
   useEffect(() => {
-    fetchCart();
+    fetchCart(); // Fetch cart items when component mounts
   }, []);
 
+
   return (
+
     <div style={{ padding: "20px" }}>
       <h2>Your Cart</h2>
       <div onClick={() => navigate(-1)} style={{ cursor: "pointer", marginBottom: "20px", display: "flex", alignItems: "center", gap: "8px" }}>
@@ -68,21 +70,11 @@ export const ViewCart = () => {
                 <p>Quantity: {item.quantity}</p>
                 <p>Total: ₹{item.price * item.quantity}</p>
               </div>
-              <div>
-              <Button
-  onClick={() => incrementQuantity(item.name)}
-  style={{ marginRight: "8px", backgroundColor: "#4CAF50", color: "#fff" }}
->
-  +
-</Button>
-
-<Button
-  onClick={() => decrementQuantity(item.name)}
-  danger
->
-  -
-</Button>
-              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <Button onClick={() => handleDecrement(item.name)}>-</Button>
+        <span>{item.quantity}</span>
+        <Button onClick={() => handleIncrement(item.name)}>+</Button>
+      </div>
             </div>
           ))}
           <hr />

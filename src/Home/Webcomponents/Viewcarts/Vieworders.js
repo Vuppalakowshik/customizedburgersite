@@ -3,13 +3,13 @@ import axios from 'axios';
 
 export const ViewOrders = () => {
   const [orders, setOrders] = useState([]);
-  const mobile = localStorage.getItem("userMobile");
+  const mobileNumber = localStorage.getItem("userMobile"); // correctly getting user mobile
 
   useEffect(() => {
     const fetchOrders = async () => {
-      if (!mobile) return;
+      if (!mobileNumber) return; // was using `mobile` earlier which doesn't exist
       try {
-        const res = await axios.get(`http://localhost:5000/api/orders/history/${mobile}`);
+        const res = await axios.get(`http://localhost:5000/api/orders/history/${mobileNumber}`);
         if (res.data.success) {
           setOrders(res.data.orders);
         }
@@ -19,7 +19,7 @@ export const ViewOrders = () => {
     };
 
     fetchOrders();
-  }, [mobile]);
+  }, [mobileNumber]); // dependency should be mobileNumber, not mobile
 
   return (
     <div style={{ padding: "20px" }}>

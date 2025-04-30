@@ -9,6 +9,8 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cart, setCart] = useState([]);
+  const mobileNumber = localStorage.getItem("mobileNumber");
+
   const [currentMobile, setCurrentMobile] = useState(localStorage.getItem("userMobile"));
 
   // // Add to cart
@@ -36,24 +38,52 @@ export const CartProvider = ({ children }) => {
   //   }
   // };
 //---------------------------------------------------------------------------->
-const addToCart = (item) => {
-  setCartItems((prevItems) => [...prevItems, item]);
+
+const addToCart = async (item) => {
+  try {
+    if (mobileNumber) {
+      await axios.post("http://localhost:5000/addtocart", {
+        mobileNumber,
+        item,
+      });
+      fetchCart(); // Refresh cart items after adding
+    }
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+  }
+};
+
+
+const removeFromCart = async (itemId) => {
+  try {
+    if (mobileNumber) {
+      await axios.post("http://localhost:5000/removefromcart", {
+        mobileNumber,
+        itemId,
+      });
+      fetchCart(); // Refresh cart items after removing
+    }
+  } catch (error) {
+    console.error("Error removing from cart:", error);
+  }
 };
 
 
 
-const removeFromCart = (itemId) => {
-  setCartItems((prevItems) => prevItems.filter((item) => item._id !== itemId));
-};
 
-
-
-const updateQuantity = (itemId, quantity) => {
-  setCartItems((prevItems) =>
-    prevItems.map((item) =>
-      item._id === itemId ? { ...item, quantity } : item
-    )
-  );
+const updateQuantity = async (itemId, quantity) => {
+  try {
+    if (mobileNumber) {
+      await axios.post("http://localhost:5000/updatecartitem", {
+        mobileNumber,
+        itemId,
+        quantity,
+      });
+      fetchCart(); // Refresh cart items after updating
+    }
+  } catch (error) {
+    console.error("Error updating cart item:", error);
+  }
 };
 
 
@@ -77,33 +107,27 @@ const updateQuantity = (itemId, quantity) => {
   };
 
   // Fetch cart
+ 
   const fetchCart = async () => {
-    const mobile = localStorage.getItem("userMobile");
-    console.log("fetchCart called — mobile:", mobile);
-    if (!mobile) return;
     try {
-      const res = await axios.get(`http://localhost:5000/api/cart/${mobile}`);
-      console.log("Cart fetch result:", res.data);
-      setCartItems(res.data);
-    } catch (err) {
-      console.error("Failed to fetch cart:", err);
+      if (mobileNumber) {
+        const res = await axios.get(`http://localhost:5000/getcart/${mobileNumber}`);
+        setCartItems(res.data.items || []);
+      }
+    } catch (error) {
+      console.error("Error fetching cart:", error);
     }
   };
   
-  
 
 
 
 
 
-  // 👇 Detect mobile number changes and reset cart
+
   useEffect(() => {
-    const mobile = localStorage.getItem("userMobile");
-    console.log("Effect fired — mobile:", mobile);
-    if (mobile) {
-      fetchCart();
-    }
-  }, []);
+    fetchCart();
+  }, [mobileNumber]);
   
   
 //----------------------------------------------------------->incrmet
@@ -140,7 +164,7 @@ const decrementQuantity = async (itemName) => {
       .filter(item => item.quantity > 0)
   );
 
-  // Backend update
+  // Backend update45
   try {
     await axios.post(`http://localhost:5000/api/cart/decreasequantity`, { mobile, name: itemName });
   } catch (err) {
